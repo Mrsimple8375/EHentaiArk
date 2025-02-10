@@ -54,6 +54,7 @@ size = Vector2i(705, 675)
 ok_button_text = "Open"
 file_mode = 0
 access = 2
+filters = PackedStringArray("*.cbz", "*.zip")
 
 [node name="Panel2" type="Panel" parent="."]
 layout_mode = 0
@@ -67,27 +68,6 @@ layout_mode = 0
 offset_right = 697.0
 offset_bottom = 426.0
 theme_override_font_sizes/normal_font_size = 25
-text = "Manga Selected;
-Filename.cbz
-
-Scrapping from E-Hentai...
-E-Hentai URL
-
-Parsed from URL:
-	- gid:
-	- token:
-	- language:
-	- parody:
-	- character:
-	- artist:
-	- male:
-	- female:
-	- mixed:
-	- other:
-
-Saving as .txt file...
-Saving tag file on .zip...
-Done"
 scroll_following = true
 
 [node name="Start" type="Button" parent="."]

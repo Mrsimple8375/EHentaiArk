@@ -11,13 +11,19 @@ func _ready():
 
 func _on_request_completed(result, response_code, headers, body):
 	progress.text += "Parsed from URL:\n"
+	var _parsed = ""
 	
 	# get gid and token from url
 	var _gidANDtoken = eHentaiURL.text.replace("https://e-hentai.org/g/", "").split("/")
 	var _gid = _gidANDtoken[0]
 	var _token = _gidANDtoken[1]
 	progress.text += "\t- gid: " + _gid + "\n"
+	_parsed += "gid: " + _gid + "\n"
 	progress.text += "\t- token: " + _token + "\n"
+	_parsed += "token: " + _token + "\n"
+	
+	progress.text += "\t- name: " + hentaiName.text + "\n"
+	_parsed += "name: " + hentaiName.text + "\n"
 	
 	var _languageTags = "language: "
 	var _parodyTags = "parody: "
@@ -60,19 +66,66 @@ func _on_request_completed(result, response_code, headers, body):
 						_otherTags += _value.split("ta_other:")[1] + "; "
 						
 	progress.text += "\t- " + _languageTags + "\n"
+	_parsed += _languageTags + "\n"
 	progress.text += "\t- " + _parodyTags + "\n"
+	_parsed += _parodyTags + "\n"
 	progress.text += "\t- " + _characterTags + "\n"
+	_parsed += _characterTags + "\n"
 	progress.text += "\t- " + _artistTags + "\n"
+	_parsed += _artistTags + "\n"
 	progress.text += "\t- " + _maleTags + "\n"
+	_parsed += _maleTags + "\n"
 	progress.text += "\t- " + _femaleTags + "\n"
+	_parsed += _femaleTags + "\n"
 	progress.text += "\t- " + _mixedTags + "\n"
-	progress.text += "\t- " + _otherTags
+	_parsed += _mixedTags + "\n"
+	progress.text += "\t- " + _otherTags + "\n\n"
+	_parsed += _otherTags
+	
+	WriteParsedIntoZipFile(_parsed)
+
+func WriteParsedIntoZipFile(_parsed : String):
+	progress.text += "Saving tags .txt file on selected manga file...\n"
+	
+	var _reader = ZIPReader.new()
+	var _readerError = _reader.open(selectedMangaFilePath)
+	if _readerError != OK:
+		return PackedByteArray()
+	var _filesInsideZip : Dictionary
+	var _dataOverwrite : PackedByteArray
+	for _file in _reader.get_files():
+		# remove existed data.txt file
+		if(_file != "data.txt"):
+			_filesInsideZip[_file] = _reader.read_file(_file)
+	_reader.close()
+
+
+	var _writer = ZIPPacker.new()
+	var _writerError := _writer.open(selectedMangaFilePath)
+	if _writerError != OK:
+		return _writerError
+	
+	_writer.start_file("data.txt")
+	_writer.write_file(_parsed.to_utf8_buffer())
+	_writer.close_file()
+	
+	for _f in _filesInsideZip:
+		_writer.start_file(_f)
+		_writer.write_file(_filesInsideZip[_f])
+		_writer.close_file()
+		
+	_writer.close()
+	progress.text += "Done."
+	return OK
 
 func _on_file_dialog_file_selected(path):
 	selectedMangaFile = $FileDialog.current_file
 	selectedMangaFilePath = path
 	
 	progress.text = "Manga Selected;\n" + $FileDialog.current_file + "\n\n"
+	
+	eHentaiURL.text = ""
+	hentaiName.text = ""
 
 func _on_select_manga_file_pressed():
 	$FileDialog.visible = true
