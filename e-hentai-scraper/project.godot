@@ -23,3 +23,7 @@ window/size/viewport_height=725
 [dotnet]
 
 project/assembly_name="E-Hentai Scraper"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/cookie_http_request/plugin.cfg")

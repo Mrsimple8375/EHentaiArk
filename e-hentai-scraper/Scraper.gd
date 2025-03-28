@@ -7,7 +7,8 @@ var selectedMangaFilePath : String
 @onready var hentaiName = $"Manga Name"
 
 func _ready():
-	$HTTPRequest.request_completed.connect(_on_request_completed)
+	$CookieHTTPRequest.request_completed.connect(_on_request_completed)
+
 
 func _on_request_completed(result, response_code, headers, body):
 	progress.text += "Parsed from URL:\n"
@@ -15,6 +16,7 @@ func _on_request_completed(result, response_code, headers, body):
 	
 	# get gid and token from url
 	var _gidANDtoken = eHentaiURL.text.replace("https://e-hentai.org/g/", "").split("/")
+	_gidANDtoken = eHentaiURL.text.replace("https://exhentai.org/g/", "").split("/")
 	var _gid = _gidANDtoken[0]
 	var _token = _gidANDtoken[1]
 	progress.text += "\t- gid: " + _gid + "\n"
@@ -132,14 +134,17 @@ func _on_select_manga_file_pressed():
 
 func _on_start_pressed():
 	progress.text = "Manga Selected;\n" + $FileDialog.current_file + "\n\n"
+	
 	if(hentaiName.text == ""):
 		progress.text = "ERROR: Manga name is required.\n"
 	elif(eHentaiURL.text == ""):
 		progress.text = "ERROR: E-Hentai URL is required.\n"
 	elif(selectedMangaFile == ""):
 		progress.text = "ERROR: Manga file must be selected.\n"
-	elif(eHentaiURL.text.contains("https://e-hentai.org/g/") == false):
+	elif(eHentaiURL.text.contains("https://e-hentai.org/g/") == false && eHentaiURL.text.contains("https://exhentai.org/g/") == false):
 		progress.text = "ERROR: Entered URL is not E-Hentai URL.\n"
 	else:
 		progress.text += "Scrapping from E-Hentai...\n" + eHentaiURL.text + "\n\n"
-		$HTTPRequest.request(eHentaiURL.text)
+		
+		var _exHentaiCookies = ["ipb_member_id: " + $ipb_member_id.text, "ipb_pass_hash: " + $ipb_pass_hash.text]
+		$CookieHTTPRequest.request(eHentaiURL.text, _exHentaiCookies)

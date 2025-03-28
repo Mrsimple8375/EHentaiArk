@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://df7cd8fkxsvue"]
+[gd_scene load_steps=3 format=3 uid="uid://df7cd8fkxsvue"]
 
 [ext_resource type="Script" path="res://Scraper.gd" id="1_2fwng"]
+[ext_resource type="Script" path="res://addons/cookie_http_request/main/cookie_http_request.gd" id="2_iobqe"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -11,7 +12,8 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_2fwng")
 
-[node name="HTTPRequest" type="HTTPRequest" parent="."]
+[node name="CookieHTTPRequest" type="HTTPRequest" parent="."]
+script = ExtResource("2_iobqe")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 0
@@ -36,6 +38,24 @@ offset_right = 710.0
 offset_bottom = 181.0
 theme_override_font_sizes/font_size = 27
 placeholder_text = "Enter Manga Name"
+
+[node name="ipb_member_id" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 646.0
+offset_right = 273.0
+offset_bottom = 696.0
+theme_override_font_sizes/font_size = 27
+placeholder_text = "ipb_member_id"
+
+[node name="ipb_pass_hash" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 292.0
+offset_top = 646.0
+offset_right = 551.0
+offset_bottom = 696.0
+theme_override_font_sizes/font_size = 27
+placeholder_text = "ipb_pass_hash"
 
 [node name="Select Manga File" type="Button" parent="."]
 layout_mode = 0
@@ -72,9 +92,9 @@ scroll_following = true
 
 [node name="Start" type="Button" parent="."]
 layout_mode = 0
-offset_left = 300.0
+offset_left = 568.0
 offset_top = 636.0
-offset_right = 442.0
+offset_right = 710.0
 offset_bottom = 707.0
 theme_override_font_sizes/font_size = 45
 text = "START"
