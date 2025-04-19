@@ -14,15 +14,8 @@ func _on_request_completed(result, response_code, headers, body):
 	progress.text += "Parsed from URL:\n"
 	var _parsed = ""
 	
-	# get gid and token from url
-	var _gidANDtoken = eHentaiURL.text.replace("https://e-hentai.org/g/", "").split("/")
-	_gidANDtoken = eHentaiURL.text.replace("https://exhentai.org/g/", "").split("/")
-	var _gid = _gidANDtoken[0]
-	var _token = _gidANDtoken[1]
-	progress.text += "\t- gid: " + _gid + "\n"
-	_parsed += "gid: " + _gid + "\n"
-	progress.text += "\t- token: " + _token + "\n"
-	_parsed += "token: " + _token + "\n"
+	progress.text += "\t- url: " + eHentaiURL.text + "\n"
+	_parsed += "url: " + eHentaiURL.text + "\n"
 	
 	progress.text += "\t- name: " + hentaiName.text + "\n"
 	_parsed += "name: " + hentaiName.text + "\n"
@@ -117,6 +110,10 @@ func WriteParsedIntoZipFile(_parsed : String):
 		_writer.close_file()
 		
 	_writer.close()
+	
+	var _dir = DirAccess.open(selectedMangaFilePath.replace(selectedMangaFile, ""))
+	_dir.rename(selectedMangaFile, selectedMangaFile.replace(".zip", ".cbz"))
+	
 	progress.text += "Done."
 	return OK
 

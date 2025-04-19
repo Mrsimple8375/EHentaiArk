@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://df7cd8fkxsvue"]
 
-[ext_resource type="Script" path="res://Scraper.gd" id="1_2fwng"]
-[ext_resource type="Script" path="res://addons/cookie_http_request/main/cookie_http_request.gd" id="2_iobqe"]
+[ext_resource type="Script" uid="uid://bkm2rupkdlyrv" path="res://Scraper.gd" id="1_2fwng"]
+[ext_resource type="Script" uid="uid://cvqvwb2yxqbof" path="res://addons/cookie_http_request/main/cookie_http_request.gd" id="2_iobqe"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -74,7 +74,7 @@ size = Vector2i(705, 675)
 ok_button_text = "Open"
 file_mode = 0
 access = 2
-filters = PackedStringArray("*.cbz", "*.zip")
+filters = PackedStringArray("*.zip")
 
 [node name="Panel2" type="Panel" parent="."]
 layout_mode = 0
