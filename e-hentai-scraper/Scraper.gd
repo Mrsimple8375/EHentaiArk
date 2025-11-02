@@ -15,7 +15,8 @@ var selectedComicInfoFilePath : String
 var crawlMode : String = "URL"
 
 func _ready():
-	$CookieHTTPRequest.request_completed.connect(_on_request_completed)
+	pass
+	#$CookieHTTPRequest.request_completed.connect(_on_request_completed)
 
 func _on_request_completed(result, response_code, headers, body):
 	progress.text += "Parsed from URL:\n"
